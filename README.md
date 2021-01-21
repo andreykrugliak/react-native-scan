@@ -14,8 +14,14 @@ npm install react-native-scan
 import Scan from "react-native-scan";
 
 // ...
-
-const result = await Scan.multiply(3, 7);
+Scan.scanImage().then(result => {
+  console.log(result)
+  console.log(result.cropped)
+  console.log(result.scanned)
+  console.log(result.enhanced)
+}).catch(err => {
+  console.log(err)
+})
 ```
 
 ## Contributing
