@@ -30,7 +30,6 @@ class SimpleViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NSLog("hello there, in Simple View now")
         if (startScan) {
             let scannerViewController = ImageScannerController(delegate: self)
             scannerViewController.modalPresentationStyle = .fullScreen
@@ -53,11 +52,14 @@ extension SimpleViewController: ImageScannerControllerDelegate {
         assertionFailure(message)
         self.reject(code, message, nil)
 
-        scanner.dismiss(animated: true, completion: nil)
-        self.dismiss(animated: true, completion: nil)
 
         let value = UIInterfaceOrientation.landscapeRight.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
+
+        let appDelegate = UIApplication.shared.delegate!
+        let viewController = (appDelegate.window!?.rootViewController)! as UIViewController
+        viewController.dismiss(animated: true, completion: nil)
+
     }
 
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
@@ -72,18 +74,21 @@ extension SimpleViewController: ImageScannerControllerDelegate {
 
         self.resolve(scanResult)
         startScan = false
-        scanner.dismiss(animated: true, completion: nil)
-        self.dismiss(animated: true, completion: nil)
 
         let value = UIInterfaceOrientation.landscapeRight.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
+
+        let appDelegate = UIApplication.shared.delegate!
+        let viewController = (appDelegate.window!?.rootViewController)! as UIViewController
+        viewController.dismiss(animated: true, completion: nil)
     }
 
     func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
         self.resolve("cancel scanning")
         startScan = false
-        scanner.dismiss(animated: true, completion: nil)
-        self.dismiss(animated: true, completion: nil)
+        let appDelegate = UIApplication.shared.delegate!
+        let viewController = (appDelegate.window!?.rootViewController)! as UIViewController
+        viewController.dismiss(animated: true, completion: nil)
     }
 
 }
