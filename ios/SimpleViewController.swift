@@ -52,31 +52,24 @@ extension SimpleViewController: ImageScannerControllerDelegate {
         assertionFailure(message)
         self.reject(code, message, nil)
 
-
-        let value = UIInterfaceOrientation.landscapeRight.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-
         let appDelegate = UIApplication.shared.delegate!
         let viewController = (appDelegate.window!?.rootViewController)! as UIViewController
         viewController.dismiss(animated: true, completion: nil)
-
     }
 
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
-        var scanResult = [String:String]()
-        let originalUrl = results.originalScan.image.save(NSUUID().uuidString + ".png")
-        let croppedUrl = results.croppedScan.image.save(NSUUID().uuidString + ".png")
-        let enhancedUrl = results.enhancedScan?.image.save(NSUUID().uuidString + ".png")
+        var scanResult = [String:[String:String]]()
 
-        scanResult["scanned"] = originalUrl.absoluteString
-        scanResult["cropped"] = croppedUrl.absoluteString
-        scanResult["enahnced"] = enhancedUrl?.absoluteString
+        let croppedUrl = results.croppedScan.image.save(NSUUID().uuidString + ".png")
+
+        scanResult["cropped"] = [String:String]()
+        let croppedImage = results.croppedScan.image
+        scanResult["cropped"]!["uri"] = croppedUrl.absoluteString
+        scanResult["cropped"]!["height"] = (croppedImage.size.height * croppedImage.scale).description
+        scanResult["cropped"]!["width"] = (croppedImage.size.width  * croppedImage.scale).description
 
         self.resolve(scanResult)
         startScan = false
-
-        let value = UIInterfaceOrientation.landscapeRight.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
 
         let appDelegate = UIApplication.shared.delegate!
         let viewController = (appDelegate.window!?.rootViewController)! as UIViewController
