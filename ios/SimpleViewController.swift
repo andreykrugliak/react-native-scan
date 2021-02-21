@@ -57,14 +57,23 @@ extension SimpleViewController: ImageScannerControllerDelegate {
         viewController.dismiss(animated: true, completion: nil)
     }
 
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+
     func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
         var scanResult = [String:[String:String]]()
 
-        let croppedUrl = results.croppedScan.image.save(NSUUID().uuidString + ".png")
+//        let croppedUrl = results.croppedScan.image.save(NSUUID().uuidString + ".png")
+        let croppedPath = getDocumentsDirectory().appendingPathComponent(NSUUID().uuidString + ".jpeg")
+        if let data = results.croppedScan.image.jpegData(compressionQuality: 0.8) {
+            try? data.write(to: croppedPath)
+        }
 
         scanResult["cropped"] = [String:String]()
         let croppedImage = results.croppedScan.image
-        scanResult["cropped"]!["uri"] = croppedUrl.absoluteString
+        scanResult["cropped"]!["uri"] = croppedPath.absoluteString
         scanResult["cropped"]!["height"] = (croppedImage.size.height * croppedImage.scale).description
         scanResult["cropped"]!["width"] = (croppedImage.size.width  * croppedImage.scale).description
 
