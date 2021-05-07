@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/phyworks/react-native-scan",
+  "repository": "https://github.com/andreykrugliak/react-native-scan",
   "author": "Tony Chen <tony@phyworks.cn> (https://github.com/phyworks)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/phyworks/react-native-scan/issues"
+    "url": "https://github.com/andreykrugliak/react-native-scan/issues"
   },
-  "homepage": "https://github.com/phyworks/react-native-scan#readme",
+  "homepage": "https://github.com/andreykrugliak/react-native-scan#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

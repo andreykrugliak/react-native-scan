@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import WeScan
+import WeScan_English
 
 class SimpleViewController: UIViewController {
 

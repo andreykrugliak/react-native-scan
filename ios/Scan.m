@@ -7,6 +7,11 @@
     return dispatch_get_main_queue();
 }
 
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
+
 RCT_EXTERN_METHOD(multiply:(float)a withB:(float)b
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
